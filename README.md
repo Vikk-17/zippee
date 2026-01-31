@@ -164,7 +164,7 @@ docker run <image_name>
 - Response:
 ```json
 {
-  "message": updated task "70aab78c-4e5a-4a47-8d2d-3d73181bbb23",
+  "message": "updated task 70aab78c-4e5a-4a47-8d2d-3d73181bbb23",
 }
 ```
 
