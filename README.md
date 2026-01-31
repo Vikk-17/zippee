@@ -1,5 +1,17 @@
 # zippee
 
+## Index
+
+- Installation
+    - Local Installation
+    - Docker Installation
+- Exposed routes
+- Instruction to run test
+- Extraneous DevOps part
+- Challenges
+
+---
+
 ## Installation
 
 ### Local Installation
@@ -168,11 +180,29 @@ docker run <image_name>
 
 ---
 
-### Instruction to run test 
+## Instruction to run test 
 ```bash
 # go to root dir of the application
 pytest -v # to run all the test at once
 ```
+
+---
+
+## Extraneous DevOps part 
+
+- I have added the ci pipeline to check for the neccesary steps
+- Deployed the server into aws for check at this ip:
+```
+# not https and 8000 port
+http://ec2-54-226-182-8.compute-1.amazonaws.com:8000/
+```
+---
+
+## Challenges
+- Building the basic curd app was easy but some silly bugs bugged me really hard 
+- Writing swagger docs was really hard because of not having proper documentations and community driven article
+- While writing the ci pipeline, had faced with some version issue and linting & formatting. But at the end managed to done the work.
+- Writng test cases was slight complecated then I used to think.
 
 ---
 
