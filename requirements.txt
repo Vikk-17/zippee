@@ -1,8 +1,8 @@
-attrs==25.4.0
-black==26.1.0
-flasgger==0.9.7.1
-Flask==3.1.2
-Flask-JWT-Extended==4.7.1
-Flask-SQLAlchemy==3.1.1
-SQLAlchemy==2.0.46
-Werkzeug==3.1.5
+black
+flasgger
+Flask
+Flask-JWT-Extended
+Flask-SQLAlchemy
+SQLAlchemy
+Werkzeug
+pytest

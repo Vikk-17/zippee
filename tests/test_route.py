@@ -142,26 +142,92 @@ def test_tasks_without_token():
     assert res.status_code == 401
 
 
-# def test_tasks_pagination():
-#     client = app.test_client()
-#     token = get_token(client)
-#
-#     # create 5 tasks
-#     for i in range(5):
-#         client.post(
-#             "/tasks",
-#             json={"title": f"Task {i}", "description": "Test"},
-#             headers={"Authorization": f"Bearer {token}"}
-#         )
-#
-#     res = client.get(
-#         "/tasks?page=1&per_page=2",
-#         headers={"Authorization": f"Bearer {token}"}
-#     )
-#
-#     data = res.get_json()
-#
-#     assert res.status_code == 200
-#     assert len(data["tasks"]) == 2
-#     assert data["total"] == 5
-#     assert res.status_code == 401
+def test_filter_completed_tasks():
+    clear_db()
+    client = app.test_client()
+    token = get_token(client)
+
+    # create mixed tasks
+    client.post(
+        "/tasks",
+        json={"title": "Task 1", "description": "A"},
+        headers={"Authorization": f"Bearer {token}"}
+    )
+
+    client.post(
+        "/tasks",
+        json={"title": "Task 2", "description": "B"},
+        headers={"Authorization": f"Bearer {token}"}
+    )
+
+    # mark one as completed
+    task_id = client.get(
+        "/tasks",
+        headers={"Authorization": f"Bearer {token}"}
+    ).get_json()["tasks"][0]["id"]
+
+    client.put(
+        f"/tasks/{task_id}",
+        json={"completed": True},
+        headers={"Authorization": f"Bearer {token}"}
+    )
+
+    # filter completed
+    res = client.get(
+        "/tasks?completed=true",
+        headers={"Authorization": f"Bearer {token}"}
+    )
+
+    data = res.get_json()
+
+    assert res.status_code == 200
+    assert data["total"] == 1
+    assert data["tasks"][0]["completed"] is True
+
+
+def test_filter_pending_task():
+    clear_db()
+
+    client = app.test_client()
+    token = get_token(client)
+
+    # create mixed tasks
+    client.post(
+        "/tasks",
+        json={"title": "Task 1", "description": "A"},
+        headers={"Authorization": f"Bearer {token}"}
+    )
+
+    res = client.get(
+            "/tasks?completed=false",
+            headers={"Authorization": f"Bearer {token}"}
+    )
+    data = res.get_json()
+
+    assert res.status_code == 200
+    assert data["total"] == 1 
+    assert data["tasks"][0]["completed"] == False
+
+
+def test_tasks_pagination():
+    client = app.test_client()
+    token = get_token(client)
+
+    # create 5 tasks
+    for i in range(5):
+        client.post(
+            "/tasks",
+            json={"title": f"Task {i}", "description": "Test"},
+            headers={"Authorization": f"Bearer {token}"}
+        )
+
+    res = client.get(
+        "/tasks?page=1&per_page=2",
+        headers={"Authorization": f"Bearer {token}"}
+    )
+
+    data = res.get_json()
+
+    assert res.status_code == 200
+    assert len(data["tasks"]) == 2
+    assert data["total"] == 5

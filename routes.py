@@ -145,8 +145,13 @@ def return_tasks():
         # read query params (?page=1&per_page=5)
         page = request.args.get("page", 1, type=int)
         per_page = request.args.get("per_page", 5, type=int)
-        # tasks = Task.query.filter_by(user_id=current_user).all()
-        pagination = Task.query.filter_by(user_id=current_user).paginate(
+        completed = request.args.get("completed")
+        query = Task.query.filter_by(user_id=current_user)
+
+        if completed is not None:
+            query = query.filter_by(completed=completed.lower() == "true")
+
+        pagination = query.paginate(
             page=page,
             per_page=per_page,
             error_out=False,

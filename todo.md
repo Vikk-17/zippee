@@ -1,37 +1,5 @@
-Title: Task Manager API
-
-Objective: Build a RESTful API for a simple task manager application using either Flask or Django. The API should allow users to perform basic CRUD operations on tasks and should include user authentication.
-Requirements:
-
----
-
-Task Model:
-Create a model for tasks with the following fields: 
-** id (auto-generated)
-** title (string)
-** description (text)
-** completed (boolean)
-** created_at (timestamp)
-** updated_at (timestamp)
-
----
-
-API Endpoints:
-Implement the following endpoints: 
-** GET /tasks: Retrieve a list of all tasks. 
-** GET /tasks/{id}: Retrieve details of a specific task. 
-
-** POST /tasks: Create a new task. 
-** PUT /tasks/{id}: Update details of a specific task. 
-
-** DELETE /tasks/{id}: Delete a specific task.
-
----
-
-User Authentication:
-- [ ] Implement user authentication using either JWT or session-based authentication.
-- [ ] Users should be able to register and log in.
-- [ ] Only authenticated users should be able to create, update, or delete tasks.
+Fix:
+- Need to fix datetime issue that is not being updated
 
 ---
 
@@ -42,13 +10,13 @@ Documentation:
 ---
 
 Testing:
-- [ ] Write unit tests to ensure the correctness of your API endpoints.
-- [ ] Include instructions on how to run the tests.
+- [x] Write unit tests to ensure the correctness of your API endpoints.
+- [x] Include instructions on how to run the tests.
 
 ---
 
 Bonus Points (Optional):
-- [ ] Implement pagination for the list of tasks.
+- [x] Implement pagination for the list of tasks.
 - [ ] Add filtering options for tasks (e.g., filter by completed status).
 - [ ] Include user roles (e.g., admin, regular user) with different permissions.
 
@@ -59,13 +27,3 @@ Submission:
 - [ ] Include a README.md file with instructions on how to set up and run the application.
 - [ ] Provide any additional notes or explanations you think are necessary.
 
----
-
-Evaluation Criteria:
-- [ ] Code organization and structure.
-- [ ] Correct implementation of CRUD operations.
-- [ ] User authentication and authorization.
-- [ ] Quality and coverage of tests.
-- [ ] Clarity and completeness of documentation.
-
----
