@@ -2,7 +2,6 @@ from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime, timezone
 from uuid import uuid4
 
-
 db = SQLAlchemy()
 
 
@@ -22,10 +21,11 @@ class User(db.Model):
     password = db.Column(db.String(255), nullable=False)
 
     tasks = db.relationship("Task", backref="user")
-    
+
     def __init__(self, username, password):
         self.username = username
         self.password = password
+
 
 class Task(db.Model):
     """

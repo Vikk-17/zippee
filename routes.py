@@ -146,16 +146,15 @@ def return_tasks():
         page = request.args.get("page", 1, type=int)
         per_page = request.args.get("per_page", 5, type=int)
         # tasks = Task.query.filter_by(user_id=current_user).all()
-        pagination = Task.query.filter_by(
-                user_id=current_user
-                ).paginate(
-                        page=page,
-                        per_page=per_page,
-                        error_out=False,
-                )
+        pagination = Task.query.filter_by(user_id=current_user).paginate(
+            page=page,
+            per_page=per_page,
+            error_out=False,
+        )
 
         return (
-                jsonify({
+            jsonify(
+                {
                     "page": pagination.page,
                     "per_page": pagination.per_page,
                     "total": pagination.total,
@@ -166,12 +165,13 @@ def return_tasks():
                             "title": item.title,
                             "description": item.description,
                             "completed": item.completed,
-                            }
+                        }
                         for item in pagination.items
-                        ]
-                    }),
-                200,
-                )
+                    ],
+                }
+            ),
+            200,
+        )
 
     elif request.method == "POST":
         data = request.json
