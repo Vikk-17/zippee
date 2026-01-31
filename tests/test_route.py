@@ -1,4 +1,3 @@
-from werkzeug.datastructures import headers
 from app import app
 from models import db
 from models import User, Task
