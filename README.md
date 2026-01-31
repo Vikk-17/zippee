@@ -1,20 +1,21 @@
 # zippee
+A simple task management REST API built using Flask, JWT authentication, and SQLAlchemy. The project supports user authentication, task CRUD, pagination, and basic CI/CD integration.
 
 ## Index
 
-- Installation
-    - Local Installation
-    - Docker Installation
-- Exposed routes
-- Instruction to run test
-- Extraneous DevOps part
-- Challenges
-
+- [Installation](#installation)
+  - [Local](#local)
+  - [Docker](#docker)
+- [Routes](#routes)
+- [Test](#test)
+- [DevOps](#devops)
+- [Challenges](#challenges)
+- [References](#references)
 ---
 
 ## Installation
 
-### Local Installation
+### Local
 -   [Download & install python](https://www.python.org/downloads/)
 - Clone the repository & setup the application
 
@@ -43,12 +44,12 @@ python app.py
 
 ```
 
-### Docker Setup
+### Docker
 - [Install docker](https://docs.docker.com/engine/install/)
 
 ```
 # clone the repository and run the following commmand
-docker compose up
+docker compose up -d
 
 # or else build the application first
 docker build -t <image_name> .
@@ -63,7 +64,7 @@ docker run <image_name>
 
 ---
 
-## Exposed routes
+## Routes
 
 ### Register User
 
@@ -106,11 +107,11 @@ docker run <image_name>
 - Response: Fetch all tasks
 - Query Parameters:
 
-| Parameters | Type | Description |
-| --------------- | --------------- | --------------- |
-| page | int | Page Number, default = 1 |
-| per_page | int | Task Per Page, default = 5 |
-| completed | bool | Filtered by completion status |
+| Parameters | Type | Description                   |
+| ---------- | ---- | ----------------------------- |
+| page       | int  | Page Number, default = 1      |
+| per_page   | int  | Task Per Page, default = 5    |
+| completed  | bool | Filtered by completion status |
 
 - Example: **/tasks?page=1&per_page=5&completed=true**
 
@@ -180,7 +181,7 @@ docker run <image_name>
 
 ---
 
-## Instruction to run test 
+## Test 
 ```bash
 # go to root dir of the application
 pytest -v # to run all the test at once
@@ -188,7 +189,7 @@ pytest -v # to run all the test at once
 
 ---
 
-## Extraneous DevOps part 
+## DevOps
 
 - I have added the ci pipeline to check for the neccesary steps
 - Deployed the server into aws for check at this ip:
@@ -199,7 +200,7 @@ http://ec2-54-226-182-8.compute-1.amazonaws.com:8000/
 ---
 
 ## Challenges
-- Building the basic curd app was easy but some silly bugs bugged me really hard 
+- Building the basic crud app was easy but some silly bugs bugged me really hard 
 - Writing swagger docs was really hard because of not having proper documentations and community driven article
 - While writing the ci pipeline, had faced with some version issue and linting & formatting. But at the end managed to done the work.
 - Writng test cases was slight complecated then I used to think.
@@ -218,3 +219,4 @@ http://ec2-54-226-182-8.compute-1.amazonaws.com:8000/
 - [Testing Flask Application](https://flask.palletsprojects.com/en/stable/testing/)
 - [Setting up config for setup - Stackoverflow](https://stackoverflow.com/questions/7786648/how-to-call-setup-once-for-all-tests-and-teardown-after-all-are-finished)
 - [Pagination](https://www.geeksforgeeks.org/python/how-to-implement-filtering-sorting-and-pagination-in-flask/)
+
