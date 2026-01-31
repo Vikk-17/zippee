@@ -6,9 +6,9 @@ from flasgger import Swagger
 
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
-app.config['SECRET_KEY'] = 'test'
-app.config['JWT_SECRET_KEY'] = 'jwt_test'
+app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///database.db"
+app.config["SECRET_KEY"] = "test"
+app.config["JWT_SECRET_KEY"] = "jwt_test"
 # app.config.from_pyfile("config.py")
 
 db.init_app(app)
