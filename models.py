@@ -22,7 +22,10 @@ class User(db.Model):
     password = db.Column(db.String(255), nullable=False)
 
     tasks = db.relationship("Task", backref="user")
-
+    
+    def __init__(self, username, password):
+        self.username = username
+        self.password = password
 
 class Task(db.Model):
     """
@@ -43,3 +46,8 @@ class Task(db.Model):
     )
 
     user_id = db.Column(db.String, db.ForeignKey("users.id"), nullable=False)
+
+    def __init__(self, title, description, user_id):
+        self.title = title
+        self.description = description
+        self.user_id = user_id

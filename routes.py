@@ -3,9 +3,8 @@ from flask_jwt_extended import (
     create_access_token,
     get_jwt_identity,
     jwt_required,
-    JWTManager,
 )
-from werkzeug.security import generate_password_hash, check_password_hash
+from werkzeug.security import generate_password_hash
 from models import db, User, Task
 
 api = Blueprint("api", __name__)
@@ -67,7 +66,7 @@ def login():
             properties:
                 username:
                     type: string
-                    example: John
+                    examnd SQLAlchemy’s dynamic constple: John
                 password:
                     type: string
                     example: test
@@ -143,21 +142,36 @@ def return_tasks():
     current_user = get_jwt_identity()
 
     if request.method == "GET":
-        tasks = Task.query.filter_by(user_id=current_user).all()
+        # read query params (?page=1&per_page=5)
+        page = request.args.get("page", 1, type=int)
+        per_page = request.args.get("per_page", 5, type=int)
+        # tasks = Task.query.filter_by(user_id=current_user).all()
+        pagination = Task.query.filter_by(
+                user_id=current_user
+                ).paginate(
+                        page=page,
+                        per_page=per_page,
+                        error_out=False,
+                )
+
         return (
-            jsonify(
-                [
-                    {
-                        "id": t.id,
-                        "title": t.title,
-                        "description": t.description,
-                        "completed": t.completed,
-                    }
-                    for t in tasks
-                ]
-            ),
-            200,
-        )
+                jsonify({
+                    "page": pagination.page,
+                    "per_page": pagination.per_page,
+                    "total": pagination.total,
+                    "pages": pagination.pages,
+                    "tasks": [
+                        {
+                            "id": item.id,
+                            "title": item.title,
+                            "description": item.description,
+                            "completed": item.completed,
+                            }
+                        for item in pagination.items
+                        ]
+                    }),
+                200,
+                )
 
     elif request.method == "POST":
         data = request.json
@@ -173,6 +187,69 @@ def return_tasks():
 @api.route("/tasks/<id>", methods=["GET", "PUT", "DELETE"])
 @jwt_required()
 def return_tasks_id(id):
+    """
+    Get, update, or delete a task by ID
+    ---
+    tags:
+      - Tasks
+    security:
+      - Bearer: []
+
+    parameters:
+      - name: id
+        in: path
+        required: true
+        type: string
+        description: Task ID
+
+    get:
+      summary: Get a single task by ID
+      responses:
+        200:
+          description: Task retrieved successfully
+          schema:
+            type: object
+            properties:
+              id:
+                type: string
+              title:
+                type: string
+              description:
+                type: string
+              completed:
+                type: boolean
+        404:
+          description: Task not found
+
+    put:
+      summary: Update a task
+      parameters:
+        - name: body
+          in: body
+          required: true
+          schema:
+            type: object
+            properties:
+              title:
+                type: string
+                example: Updated title
+              completed:
+                type: boolean
+                example: true
+      responses:
+        200:
+          description: Task updated successfully
+        404:
+          description: Task not found
+
+    delete:
+      summary: Delete a task
+      responses:
+        200:
+          description: Task deleted successfully
+        404:
+          description: Task not found
+    """
     current_user = get_jwt_identity()
     if request.method == "GET":
         task = Task.query.filter_by(id=id, user_id=current_user).first_or_404()
